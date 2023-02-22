@@ -7,15 +7,10 @@ import arviz as az
 import jax
 import jax.numpy as jnp
 import jax.random as random
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow_probability.substrates.jax as tfp
 from jax import jit
-from jax.random import PRNGKey
-from tensorflow_probability.substrates.jax import bijectors
-from tensorflow_probability.substrates.jax.mcmc.transformed_kernel import \
-    TransformedTransitionKernel
 
 from hbv import create_joint_posterior
 from utils import make_inverse_temperature_schedule
@@ -65,7 +60,7 @@ def run_analysis(params):
                 ).astype('timedelta64[D]').astype(int) + 1
 
     # Times to observe solution
-    T = jnp.float64(num_days)
+    jnp.float64(num_days)
     t_obs = jnp.arange(0, num_days) + 0.5
     precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
     evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
@@ -93,7 +88,10 @@ def run_analysis(params):
 
     # TODO: Make truly random like Gaussian shells example
     # Random chain
-    seed = SystemRandom().randint(np.iinfo(np.uint32).min, np.iinfo(np.uint32).max)
+    seed = SystemRandom().randint(
+        np.iinfo(
+            np.uint32).min, np.iinfo(
+            np.uint32).max)
     key = random.PRNGKey(seed)
 
     key, subkey = jax.random.split(key)
@@ -153,16 +151,15 @@ def run_analysis(params):
     posterior_samples, posterior_samples_betas = run_remc_chain_jit(subkey)
     print("REMC finished.")
 
-
     # posterior parameters beta=1
     parameter_names = posterior._flat_resolve_names()
-    posterior_samp = {k: jnp.swapaxes( v, 0, 1) for k, v in zip(
-            parameter_names, posterior_samples)}
+    posterior_samp = {k: jnp.swapaxes(v, 0, 1) for k, v in zip(
+        parameter_names, posterior_samples)}
 
     az_trace = az.from_dict(posterior=posterior_samp)
 
     print(az.summary(az_trace))
-    
+
     az.to_netcdf(az_trace, 'hbvresult3bucsone')
 
     def log_likelihood_fn(*samples):
@@ -176,10 +173,15 @@ def run_analysis(params):
     marginal_likelihood = -jnp.trapz(mll, inverse_temperatures, axis=0)
 
     print(f"Marginal likelihood: {marginal_likelihood}")
- 
-    df3 = pd.DataFrame(dict(mll=jnp.reshape(mll, num_betas), temp=inverse_temperatures))
+
+    df3 = pd.DataFrame(
+        dict(
+            mll=jnp.reshape(
+                mll,
+                num_betas),
+            temp=inverse_temperatures))
     df3.to_csv('meanlogll13bucs.csv', index=False)
-    
+
     # Input parameters
     params["num_burnin_steps"] = num_burnin_steps
     params["dual_adaptation_ratio"] = dual_adaptation_ratio
@@ -198,13 +200,14 @@ def run_analysis(params):
     print(f'Writing results to {params["output_dir"]/"results.npz"}...')
     np.savez(params["output_dir"] / "results.npz", **results)
     print("Finished.")
-    
+
     names = parameter_names
 
     for i in range(len(names)):
         names[i] = jnp.squeeze(posterior_samp.get(names[i]))
     post_save = pd.DataFrame(np.column_stack((names)))
     post_save.to_csv('post1_3bucs.csv', index=False)
+
 
 if __name__ == "__main__":
     print("Started.")
@@ -213,8 +216,11 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(
         description="Calculate the marginal likelihood")
-    parser.add_argument('--output_dir', type=pathlib.Path, help="Output directory",
-                        default="output")
+    parser.add_argument(
+        '--output_dir',
+        type=pathlib.Path,
+        help="Output directory",
+        default="output")
 
     args = parser.parse_args()
     run_analysis(vars(args))
