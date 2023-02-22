@@ -1,22 +1,13 @@
 import os
-import pathlib
-import subprocess
 
 import jax
 import jax.numpy as jnp
-import jax.random as random
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow_probability.substrates.jax as tfp
-from jax import jit
 from jax.random import PRNGKey
-from tensorflow_probability.substrates.jax import bijectors
-from tensorflow_probability.substrates.jax.mcmc.transformed_kernel import \
-    TransformedTransitionKernel
 
 from hbv import create_joint_posterior
-from utils import make_inverse_temperature_schedule
 
 tf = tfp.tf2jax
 tfd = tfp.distributions
@@ -29,7 +20,7 @@ os.environ["XLA_FLAGS"] = ("--xla_cpu_multi_thread_eigen=false "
 
 
 def run_analysis():
-    
+
     # Load data
     df = pd.read_pickle("data/megala_creek_australia.pkl.gz")
 
@@ -49,7 +40,7 @@ def run_analysis():
                 ).astype('timedelta64[D]').astype(int) + 1
 
     # Times to observe solution
-    T = jnp.float64(num_days)
+    jnp.float64(num_days)
     t_obs = jnp.arange(0, num_days) + 0.5
     precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
     evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
@@ -78,20 +69,18 @@ def run_analysis():
     # TODO: Make truly random like Gaussian shells example
     key = PRNGKey(0)
     key, subkey = jax.random.split(key)
-    
-    k, k_int, v_init, v_max, sigma,  y_obs = dist.sample(1,seed=subkey)
-    
+
+    k, k_int, v_init, v_max, sigma, y_obs = dist.sample(1, seed=subkey)
+
     print(f'the true value for is ks: {k}\n')
     print(f'the true value for k_int: {k_int}\n')
     print(f'the true value for v_init: {v_init}\n')
     print(f'the true value for v_max: {v_max}\n')
     print(f'the true value for sigma: {sigma}\n')
 
-    return  y_obs 
+    return y_obs
+
 
 y_obs = run_analysis()
 
 jnp.save('./data_1980', y_obs, allow_pickle=True)
-
-
-
