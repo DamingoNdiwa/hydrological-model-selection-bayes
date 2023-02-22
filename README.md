@@ -1,6 +1,7 @@
 # HdromodSelectRehmc
 This repository contains code for the paper "xxxx". The requirement.txt file includes the Python packages used for the article.
-
+# Gaussian shells
+This folder has scripts for the Gaussian shell examples. 
 # HdromoSelectRehmc
 This repository contains code for the paper "xxxx". The `requirement.txt` file includes the Python packages used for the article.
 
