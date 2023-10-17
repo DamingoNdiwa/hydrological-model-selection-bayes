@@ -1,7 +1,6 @@
 import numpy as np
 from pathlib import Path
 import os
-import sys
 
 if os.getenv("SLURM_JOB_ID") is None:
     raise RuntimeError("Not running inside a SLURM job!")
@@ -10,6 +9,7 @@ scratch = Path(os.environ['SCRATCH'])
 study_directory = scratch / "thesis-ideas" / "gaussian-shells" / "study_one"
 
 dimensions = [2, 5, 10, 20, 30]
+
 
 for dimension in dimensions:
     marginal_likelihoods = np.zeros(20)
@@ -20,4 +20,4 @@ for dimension in dimensions:
             marginal_likelihoods[run] = results["marginal_likelihood"]
 
     print(
-        f"dimension {dimension}: {np.mean(marginal_likelihoods)} \pm {np.sqrt(np.var(marginal_likelihoods))}")
+        f"dimension {dimension}: {np.mean(marginal_likelihoods)} \\pm {np.sqrt(np.var(marginal_likelihoods))}")
