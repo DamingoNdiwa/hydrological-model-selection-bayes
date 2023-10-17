@@ -4,7 +4,6 @@ import subprocess
 
 scratch = Path(os.environ['SCRATCH'])
 
-
 dimensions = [30]
 
 for dimension in dimensions:
