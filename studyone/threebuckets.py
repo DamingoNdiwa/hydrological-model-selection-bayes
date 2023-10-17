@@ -3,7 +3,6 @@ import pathlib
 from random import SystemRandom
 import subprocess
 import arviz as az
-
 import jax
 import jax.numpy as jnp
 import jax.random as random
@@ -11,7 +10,6 @@ import numpy as np
 import pandas as pd
 import tensorflow_probability.substrates.jax as tfp
 from jax import jit
-
 from hbv import create_joint_posterior
 from utils import make_inverse_temperature_schedule
 
