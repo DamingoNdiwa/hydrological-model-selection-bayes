@@ -10,7 +10,6 @@ study_directory = scratch / "thesis-ideas" / "gaussian-shells" / "study_one"
 
 dimensions = [2, 5, 10, 20, 30]
 
-
 for dimension in dimensions:
     marginal_likelihoods = np.zeros(20)
     for run in range(0, 20):
