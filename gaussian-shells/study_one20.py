@@ -2,6 +2,7 @@ from pathlib import Path
 import os
 import subprocess
 
+
 scratch = Path(os.environ['SCRATCH'])
 
 dimensions = [20]
