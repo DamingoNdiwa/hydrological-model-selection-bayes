@@ -1,12 +1,10 @@
 import os
-
 import jax
 import jax.numpy as jnp
 import numpy as np
 import pandas as pd
 import tensorflow_probability.substrates.jax as tfp
 from jax.random import PRNGKey
-
 from hbv import create_joint_posterior
 
 tf = tfp.tf2jax
@@ -45,8 +43,6 @@ def run_analysis():
     precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
     evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
 
-    # NOTE: Should discuss these parameters this week.
-    # NOTE: These are not the same as the parameters in your scripts!
     model_prior_params = {
         "n": 2,
         "k": {"loc": jnp.array([1.0, 0.6]),
@@ -66,7 +62,6 @@ def run_analysis():
 
     dist = create_joint_posterior(model_prior_params)
 
-    # TODO: Make truly random like Gaussian shells example
     key = PRNGKey(0)
     key, subkey = jax.random.split(key)
 
