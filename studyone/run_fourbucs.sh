@@ -20,7 +20,6 @@ echo "== Number of tasks: ${SLURM_NTASKS}"
 module load lang/Python/3.8.6-GCCcore-10.2.0
 source $HOME/damian/damian-venv/bin/activate
 
-
 # TODO: On more modern GNU parallel this makes 01, 02, ..., 10
 parallel -j1 --plus python3 $HOME/thesis-ideas/hbv/studyone/fourbuckets.py --output_dir $SCRATCH/thesis-ideas/hbv/study_two_3/{0#} ::: {1..1}
 
