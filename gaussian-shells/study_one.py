@@ -3,6 +3,7 @@ import os
 import subprocess
 
 scratch = Path(os.environ['SCRATCH'])
+
 dimensions = [2]
 
 for dimension in dimensions:
