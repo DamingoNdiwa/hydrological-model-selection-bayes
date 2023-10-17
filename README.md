@@ -13,9 +13,9 @@ The folder studyone contains codes for the first experiment.
 
 1. First, generate data by running the run_studyone_data.sh on the HPC cluster.
 2. Then run the three other files that end in sh. The files give each model's parameter estimates and log marginal likelihood.
-3.  The results can be transferred to the for further processing in which cases the codes are in the post_processing folder.
+3. The results can be transferred for further processing in which cases the codes are in the post processing folder.
 4. The subfolder ppc contains codes for the posterior predictive check. Here first, generate the data by running run_studyone_data.sh. Then, run the other scripts ending in sh to get the results. The results can be transferred for post-processing.
-
+5. The models can be run many times in parallel by specifying the number of times in the files ending in sh.
 ## Study two
 The folder studytwo contains codes for the second experiment.
 
