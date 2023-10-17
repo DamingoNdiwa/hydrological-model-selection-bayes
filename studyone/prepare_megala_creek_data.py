@@ -1,4 +1,5 @@
-from functools import partial
+from functools import partia
+l
 import dateutil.parser
 import numpy as np
 import pandas as pd
