@@ -1,7 +1,7 @@
 import logging
 import os
 import pathlib
-import pprint 
+import pprint
 from random import SystemRandom
 import subprocess
 
@@ -58,7 +58,10 @@ def run_analysis(params):
     pprint.pp(locals())
 
     # Random chain
-    seed = SystemRandom().randint(np.iinfo(np.uint32).min, np.iinfo(np.uint32).max)
+    seed = SystemRandom().randint(
+        np.iinfo(
+            np.uint32).min, np.iinfo(
+            np.uint32).max)
     key = random.PRNGKey(seed)
 
     class GaussianShell(distribution.AutoCompositeTensorDistribution):
@@ -121,10 +124,11 @@ def run_analysis(params):
             w = tf.constant([0.1])
 
             def log_gaussian_shell(theta, c):
-                return -0.5*(tf.linalg.norm(theta - c, axis=-1) - r)**2 / \
-                    w**2 - tf.math.log(tf.sqrt(2*np.pi*w**2))
+                return -0.5 * (tf.linalg.norm(theta - c, axis=-1) - r)**2 / \
+                    w**2 - tf.math.log(tf.sqrt(2 * np.pi * w**2))
 
-            return tf.math.reduce_logsumexp([log_gaussian_shell(theta, c_1), log_gaussian_shell(theta, c_2)])
+            return tf.math.reduce_logsumexp(
+                [log_gaussian_shell(theta, c_1), log_gaussian_shell(theta, c_2)])
 
     def model():
         theta = yield tfd.Sample(tfd.Uniform(tf.cast(-6.0, dtype='float64'), tf.cast(6.0, dtype='float64')), sample_shape=(dimension), name='theta')
@@ -133,8 +137,8 @@ def run_analysis(params):
     dist = tfd.JointDistributionCoroutineAutoBatched(model)
     posterior = dist.experimental_pin(z=1)
 
-    inverse_temperatures = jnp.flip(jnp.asarray(a=[pow((i / (num_betas)), 5)
-                                                   for i in range(1, num_betas + 1)]))
+    inverse_temperatures = jnp.flip(jnp.asarray(
+        a=[pow((i / (num_betas)), 5) for i in range(1, num_betas + 1)]))
 
     def make_kernel_fn(target_log_prob_fn):
         kernel = tfp.mcmc.HamiltonianMonteCarlo(
@@ -142,7 +146,8 @@ def run_analysis(params):
             num_leapfrog_steps=num_leapfrog_steps,
             step_size=step_size)
         return tfp.mcmc.DualAveragingStepSizeAdaptation(
-            inner_kernel=kernel, num_adaptation_steps=int(num_results * burn_in_ratio * dual_adaptation_ratio))
+            inner_kernel=kernel, num_adaptation_steps=int(
+                num_results * burn_in_ratio * dual_adaptation_ratio))
 
     key, subkey = random.split(key)
 
@@ -188,12 +193,12 @@ def run_analysis(params):
         log_prob_parts = posterior.unnormalized_log_prob_parts(*samples)
         log_likelihood = log_prob_parts.pinned[0]
         return log_likelihood
-    
+
     print("Calculating marginal likelihood.")
     mll = log_likelihood_fn(posterior_samples_betas)
     mll = jnp.mean(mll, axis=0)
     marginal_likelihood = -jnp.trapz(mll, inverse_temperatures, axis=0)
-    
+
     print(f"Marginal likelihood: {marginal_likelihood}")
 
     # Input parameters
@@ -241,8 +246,11 @@ if __name__ == "__main__":
                         action='store_true', default=False)
     parser.add_argument('--output_posterior_samples',
                         action='store_true', default=True)
-    parser.add_argument('--output_dir', type=pathlib.Path, help="Output directory",
-                        default="output")
+    parser.add_argument(
+        '--output_dir',
+        type=pathlib.Path,
+        help="Output directory",
+        default="output")
 
     args = parser.parse_args()
     run_analysis(vars(args))
