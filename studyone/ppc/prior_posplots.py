@@ -106,8 +106,7 @@ prior1 = pd.DataFrame(
 prior1['Distribution'] = 'Prior'
 
 # load posterior samples
-postone_2bucs = pd.read_csv(
-    '/Users/damian.ndiwago/Desktop/python/thesis-ideas/tfponjax/hpctranfers/studyone/post1_2bucs.csv',
+postone_2bucs = pd.read_csv('./post1_2bucs.csv',
     names=[
         r'$k_1$',
         r'$k_2$',
