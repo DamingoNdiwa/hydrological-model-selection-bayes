@@ -3,7 +3,6 @@ import jax.numpy as jnp
 import tensorflow_probability.substrates.jax as tfp
 from jax.experimental.ode import odeint
 
-
 tf = tfp.tf2jax
 tfd = tfp.distributions
 tfb = tfp.bijectors
