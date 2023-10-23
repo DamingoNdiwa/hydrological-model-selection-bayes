@@ -12,7 +12,6 @@
 #SBATCH -p batch
 #SBATCH --qos=normal
 
-
 module load lang/Python/3.8.6-GCCcore-10.2.0
 source $HOME/damian/damian-venv/bin/activate
 
