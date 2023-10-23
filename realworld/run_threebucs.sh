@@ -1,7 +1,6 @@
 #!/bin/bash -l
 #SBATCH -J threebucsreal
 #SBATCH --output=threebucsreal.out
-#SBATCH --mail-user=damian.ndiwago@uni.lu
 #SBATCH --mail-type=END,FAIL
 #SBATCH -N 1
 #SBATCH --ntasks-per-node=1
