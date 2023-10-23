@@ -17,9 +17,9 @@ The folder studyone contains codes for the first experiment.
 ## Studytwo
 The folder studytwo contains codes for the second experiment.
 
-1. First run run_studytwo_data.sh to generate the data. 
-2.  Then run the other scripts ending in sh and save the results for post-processing.
-3.  The subfolder ppc is for the posterior predictive.
+* First run run_studytwo_data.sh to generate the data. 
+* Then run the other scripts ending in sh and save the results for post-processing.
+* The subfolder ppc is for the posterior predictive.
 
 ## Realworld
 The folder realworld contains scripts when real observed discharge is used. The scripts can be run in any order, and shell files can be run to get the results.
@@ -28,5 +28,6 @@ The folder realworld contains scripts when real observed discharge is used. The 
 * The script ppc_cppp.py should be run after run_twobucs.sh, run_threebucs.sh, and un_fourbucs.sh. 
 * The script ppc_cppp.py uses results from the models to do posterior predictive checks.
 ## Post process
-The folder post_process has code for plots in the article and posterior predictive checks for the chosen model $M_3$ and codes for the selected model's NSE and KGE.
-
+The folder post_process  has codes
+* To check for convergence with the real-world discharge data as examples. 
+* For the pair plots in with real-world discharge data as examples.
