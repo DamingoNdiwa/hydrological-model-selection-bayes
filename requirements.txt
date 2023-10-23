@@ -13,4 +13,5 @@ statsmodels==0.13.2
 matplotlib==3.5.0
 pymcmcstat== 1.9.1
 seaborn==0.11.2
+
 SciencePlots==1.0.9
