@@ -1,5 +1,4 @@
 from functools import partial
-
 import dateutil.parser
 import numpy as np
 import pandas as pd
