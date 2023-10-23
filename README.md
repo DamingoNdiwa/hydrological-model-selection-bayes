@@ -24,8 +24,9 @@ The folder studytwo contains codes for the second experiment.
 ## Realworld
 The folder realworld contains scripts when real observed discharge is used. The scripts can be run in any order, and shell files can be run to get the results.
 
-The file run_ppc3bucsrea.sh is to get the results for the posterior predictive check for the chosen model $M_3$. The script cppthreebuckets.py is to get samples from the prior predictive distribution, which are used to calculate the prior calibrated posterior predictive p-value $pcppp$.
-
+* The file run_ppc3bucsrea.sh is to get the results for the posterior predictive check for the chosen model $M_3$.
+* The script ppc_cppp.py should be run after run_twobucs.sh, run_threebucs.sh, and un_fourbucs.sh. 
+* The script ppc_cppp.py uses results from the models to do posterior predictive checks.
 ## Post process
 The folder post_process has code for plots in the article and posterior predictive checks for the chosen model $M_3$ and codes for the selected model's NSE and KGE.
 
