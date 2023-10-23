@@ -33,12 +33,12 @@ os.environ["XLA_FLAGS"] = ("--xla_cpu_multi_thread_eigen=false "
 num_betas = 10
 
 # HMC Parameters
-num_results = 20000
-num_burnin_steps = 5000
+num_results = 3000
+num_burnin_steps = 1000
 dual_adaptation_ratio = 0.8
 num_chains = 1
-step_size = 0.005
-num_leapfrog_steps = 30
+step_size = 0.01
+num_leapfrog_steps = 40
 
 # Load data
 df = pd.read_pickle("data/megala_creek_australia.pkl.gz")
@@ -64,25 +64,22 @@ precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
 evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
 
 
-# NOTE: Should discuss these parameters this week.
-# NOTE: These are not the same as the parameters in your scripts!
 model_prior_params = {
         "n": 3,
-        "k": {"loc": jnp.array([1.0, 0.6, 0.3]),
-            "scale": jnp.array([0.25, 0.25, 0.25])},
+        "k": {"loc":jnp.log(jnp.array([1.0, 0.2, 0.2])),
+              "scale": jnp.array([0.25, 0.25, 0.25])},
         "k_int": {"loc": jnp.array([0.8, 0.4]),
-            "scale": jnp.array([0.25, 0.25])},
+                  "scale": jnp.array([0.25, 0.25])},
         "v_init": {"loc": tf.cast(0.0, dtype=jnp.float64),
-            "scale": tf.cast(1.0, dtype=jnp.float64)},
+                   "scale": tf.cast(0.25, dtype=jnp.float64)},
         "v_max": {"loc": tf.cast(1.0, dtype=jnp.float64),
-            "scale": tf.cast(0.25, dtype=jnp.float64)},
+                  "scale": tf.cast(0.25, dtype=jnp.float64)},
         "sigma": {"concentration": tf.cast(5.0, dtype=jnp.float64),
-            "scale": tf.cast(0.1, dtype=jnp.float64)},
+                  "scale": tf.cast(0.1, dtype=jnp.float64)},
         "t_obs": t_obs,
         "precipitation": precipitation,
         "evapotranspiration": evapotranspiration
         }
-
 
 dist = create_joint_posterior(model_prior_params)
 
@@ -92,17 +89,19 @@ key = random.PRNGKey(seed)
 
 key, subkey = jax.random.split(key)
 
+prior_predictive = dist.sample(num_results, seed=subkey)
+jnp.save('prior_obsm3', prior_predictive[-1], allow_pickle=True)
+
 y_obs = jnp.load('./data_1980.npy', allow_pickle=True)
 posterior = dist.experimental_pin(y=y_obs)
 
 def make_kernel_fn(target_log_prob_fn):
-    kernel_hmc = tfp.mcmc.HamiltonianMonteCarlo(
-        target_log_prob_fn=target_log_prob_fn,
-        num_leapfrog_steps=num_leapfrog_steps,
-        step_size=step_size)
+    kernel_hmc = tfp.experimental.mcmc.PreconditionedHamiltonianMonteCarlo(
+            target_log_prob_fn=target_log_prob_fn,
+            num_leapfrog_steps=num_leapfrog_steps,
+            step_size=step_size)
     kernel_dassa = tfp.mcmc.DualAveragingStepSizeAdaptation(
-        inner_kernel=kernel_hmc,
-        num_adaptation_steps=int(0.8 * num_burnin_steps))
+            inner_kernel=kernel_hmc, num_adaptation_steps=int(0.8 * num_burnin_steps))
     return kernel_dassa
 
 # NOTE: I wonder if we could make this into a function in utils so
@@ -147,18 +146,12 @@ print("Running REMC...")
 key, subkey = random.split(subkey)
 posterior_samples, posterior_samples_betas = run_remc_chain_jit(subkey)
 
-
 # posterior predictive check
 # use the posterior values to sample from the joint posterior
-# the key 1569 was used to generate the data so as to have decreasing flow rates
-# the right model is always chosen irrspective of the key used
 
-key = PRNGKey(1569)
-key, subkey = jax.random.split(key)
-
-*_,posterior_predictive = dist.sample(seed=subkey, value=posterior_samples)
-posterior_predictive = (jnp.squeeze(posterior_predictive))
+keys = random.split(PRNGKey(2), num_results)
+posterior_predictive = jax.vmap(lambda key, sample: dist.sample(seed=key, value=sample))(keys, posterior_samples)
 
 # save the predicted dicharge values for post processing
-jnp.save('ppcstudytwo3bucs',posterior_predictive,allow_pickle=True)
+jnp.save('ppcstudytwo3bucs', posterior_predictive[-1], allow_pickle=True)
 print("REMC finished.")
