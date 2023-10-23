@@ -14,7 +14,6 @@ from tensorflow_probability.substrates.jax import bijectors
 from tensorflow_probability.substrates.jax.mcmc.transformed_kernel import \
     TransformedTransitionKernel
 
-
 from hbv import create_joint_posterior
 from utils import make_inverse_temperature_schedule
 
