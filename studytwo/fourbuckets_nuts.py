@@ -3,7 +3,6 @@ import pathlib
 from random import SystemRandom
 import subprocess
 import arviz as az
-
 import jax
 import jax.numpy as jnp
 import jax.random as random
