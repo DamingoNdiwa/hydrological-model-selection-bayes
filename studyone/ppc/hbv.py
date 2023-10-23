@@ -61,7 +61,7 @@ def create_joint_posterior(model_prior_params: dict):
         v_max = yield tfd.LogNormal(loc=p["v_max"]["loc"],
                                     scale=p["v_max"]["scale"],
                                     name='v_max')
-#
+
         sigma = yield tfd.InverseGamma(concentration=p["sigma"]["concentration"], scale=p["sigma"]["scale"], name='sigma')
 
         y = yield tfd.MultivariateNormalDiag(loc=Q(k, k_int, v_init, v_max, p["n"], p["t_obs"], p["precipitation"], p["evapotranspiration"]), scale_identity_multiplier=sigma, name='y')
