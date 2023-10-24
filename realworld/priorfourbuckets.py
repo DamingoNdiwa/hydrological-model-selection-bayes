@@ -47,10 +47,10 @@ def run_analysis(params):
     num_leapfrog_steps = 40
 
     # Load data
-    df = pd.read_pickle("data/megala_creek_australia.pkl.gz")
+    df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
 
     # Slice out first three months of 1980
-    df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-03-31')]
+    df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-05-31')]
 
     assert not np.any(np.isnan(df['precipitation']))
     assert not np.any(np.isnan(df['evapotranspiration']))
