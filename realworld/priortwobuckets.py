@@ -49,7 +49,7 @@ def run_analysis(params):
     # Load data
     df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
 
-    # Slice out first three months of 1980
+    # Slice out first five  months of 1980
     df = df.dropna()
     df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-03-31')]
     
