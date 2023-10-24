@@ -72,8 +72,6 @@ def run_analysis(params):
     precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
     evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
 
-    # NOTE: Should discuss these parameters this week.
-    # NOTE: These are not the same as the parameters in your scripts!
 
     model_prior_params = {
         "n":4,
