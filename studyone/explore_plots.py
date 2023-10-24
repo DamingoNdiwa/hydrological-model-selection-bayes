@@ -24,7 +24,7 @@ os.environ["XLA_FLAGS"] = ("--xla_cpu_multi_thread_eigen=false "
 
 
 # Load data
-df = pd.read_pickle("./megala_creek_australia.pkl.gz")
+df = pd.read_pickle("../../megala_creek_australia.pkl.gz")
 
 
 # Slice out 1980
