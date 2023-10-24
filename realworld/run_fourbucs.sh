@@ -21,4 +21,4 @@ module load lang/Python/3.8.6-GCCcore-10.2.0
 source $HOME/damian/damian-venv/bin/activate
 /home/users/dmingo/thesis-ideas/hbv/realworld
 # TODO: On more modern GNU parallel this makes 01, 02, ..., 15
-parallel -j1 --plus python3 $HOME/thesis-ideas/hbv/realworld/fourbuckets.py --output_dir $SCRATCH/thesis-ideas/hbv/study_two_3/{0#} ::: {1..1}
+parallel -j1 --plus python3 $HOME/thesis-ideas/hbv/realworld/ppc4bucsrea.py --output_dir $SCRATCH/thesis-ideas/hbv/study_two_3/{0#} ::: {1..1}
