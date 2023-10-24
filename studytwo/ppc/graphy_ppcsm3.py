@@ -12,7 +12,7 @@ config.update("jax_enable_x64", True)
 tf = tfp.tf2jax
 
 # Load data
-df = pd.read_pickle("./megala_creek_australia.pkl.gz")
+df = pd.read_pickle("../megala_creek_australia.pkl.gz")
 
 # Slice out first three months of 1980
 df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-03-31')]
