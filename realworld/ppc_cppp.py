@@ -13,7 +13,7 @@ config.update("jax_enable_x64", True)
 
 # Import data for 1980 and select first five months
 
-df = pd.read_pickle("./megala_creek_australia.pkl.gz")
+df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
 df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-05-31')]
 df['year'] = df['date'].dt.strftime('%d-%m-%Y')
 
