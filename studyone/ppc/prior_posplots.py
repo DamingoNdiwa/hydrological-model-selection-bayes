@@ -25,7 +25,7 @@ plt.style.use(['science', 'ieee'])
 
 
 # Load data
-df = pd.read_pickle("./megala_creek_australia.pkl.gz")
+df = pd.read_pickle("../../megala_creek_australia.pkl.gz")
 
 # Slice out first three months of 1980
 
