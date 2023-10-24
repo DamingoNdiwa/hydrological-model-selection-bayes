@@ -10,7 +10,6 @@ from nse_kge import nash_sutcliffe, kling_gupta
 plt.style.use(['science', 'ieee'])
 config.update("jax_enable_x64", True)
 
-
 # Import data for 1980 and select first five months
 
 df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
