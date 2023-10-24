@@ -63,7 +63,6 @@ t_obs = jnp.arange(0, num_days) + 0.5
 precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
 evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
 
-
 # NOTE: Should discuss these parameters this week.
 # NOTE: These are not the same as the parameters in your scripts!
 
