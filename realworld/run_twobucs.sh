@@ -1,6 +1,7 @@
 #!/bin/bash -l
 #SBATCH -J twobucsreal
 #SBATCH --output=twobucsreal.out
+#SBATCH --mail-user=damian.ndiwago@uni.lu
 #SBATCH --mail-type=END,FAIL
 #SBATCH -N 1
 #SBATCH --ntasks-per-node=1
@@ -19,6 +20,6 @@ echo "== Number of tasks: ${SLURM_NTASKS}"
 module load lang/Python/3.8.6-GCCcore-10.2.0
 source $HOME/damian/damian-venv/bin/activate
 
-# TODO: On more modern GNU parallel this makes 01, 02, ..., 10
-parallel -j1 --plus python3 $HOME/thesis-ideas/hbv/realworld/ppc2bucsrea.py --output_dir $SCRATCH/thesis-ideas/hbv/study_two_3/{0#} ::: {1..1}
+# Run one script, can be modified to run many scripts as in the previous studies
+parallel -j1 --plus python3 ./ppc2bucsrea.py --output_dir ./{0#} ::: {1..1}
 
