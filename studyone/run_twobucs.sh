@@ -21,7 +21,7 @@ module load lang/Python/3.8.6-GCCcore-10.2.0
 source $HOME/damian/damian-venv/bin/activate
 
 # TODO: On more modern GNU parallel this makes 01, 02, ..., 15
-parallel -j15 --plus python3 $HOME/thesis-ideas/hbv/studyone/twobuckets.py --output_dir ./{0#} ::: {1..15}
+parallel -j15 --plus python3 ./twobuckets.py --output_dir ./{0#} ::: {1..15}
 
 
 
