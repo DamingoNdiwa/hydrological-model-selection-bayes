@@ -3,7 +3,7 @@ This repository contains code for the paper "xxxx". The requirement.txt file inc
 
 ## data
 Contains the data and scripts for preprocessing.
-## gaussian shells
+## gaussian-shells
 This folder has scripts for the Gaussian shell examples.
 1. First, run the scripts gaussian_shell.py, study_one.py, study_one20.py, study_one30.py in any order and finally study_one_postprocess.py.
 2.  The script study_one_postprocess.py needs to be run on HPC because many scripts run in parallel.
