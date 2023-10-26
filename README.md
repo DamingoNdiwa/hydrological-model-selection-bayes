@@ -31,6 +31,7 @@ The folder realworld contains scripts when real observed discharge is used. The 
 * The script ppc_cppp.py should be run after run_twobucs.sh, run_threebucs.sh, and un_fourbucs.sh. 
 * The script ppc_cppp.py uses results from the models to do posterior predictive checks.
 ## post_process
+
 The folder post_process  has codes
 * To check for convergence with the real-world discharge data as examples. 
 * For the pair plots in with real-world discharge data as examples.
