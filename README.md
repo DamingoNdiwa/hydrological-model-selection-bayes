@@ -4,19 +4,27 @@ This repository contains supporting code for the paper "Selecting a conceptual
 hydrological model using Bayes' factors computed with Replica Exchange
 Hamiltonian Monte Carlo" by Mingo et al. 
 
+TODO:
+
+Place full citation to pre-print and accepted article.
+
 # Dependencies
 
+The primary dependencies are JAX and Tensorflow Probability using the JAX
+backend. Secondary dependencies for pre and post-processing 
+
 The code is compatible with Python 3.10 and the dependencies specified in the
-`requirements.txt` file.
+`requirements.txt` file:
 
     pip install -r requirements.txt
 
-## Megala Creek Data `data/`
+## Megala Creek data `data/`
 
-This folder contains a folder `megala_creek_australia/` with the raw data for
-the Magala Creek catchment along with a script `prepare_megala_creek_data.py`
-that places the data into a Pandas dataframe saved at
-`megala_creek_australia.pkl.gz` for easier loading in the studies one and two.
+The folder `megala_creek_australia/` contains the raw data for the Magala Creek
+catchment in text format. A script `prepare_megala_creek_data.py` places the
+data into a Pandas dataframe saved at `megala_creek_australia.pkl.gz` for
+straightforward ingestion into the main scripts. Note that the raw data
+contains missing values on particular days.
 
 ## Gaussian shell example `gaussian_shell`
 
@@ -28,7 +36,8 @@ This folder has scripts for the Gaussian shell examples.
    scripts run in parallel.
 3. The plotGaussianshell.py and Gaussian_nuts_mala_rephmc.py can be run in any order.
 
-## studyone
+## Experiment one - synthetic discharge `experiment_one/`
+
 The folder studyone contains codes for the first experiment. 
 
 1. First, generate data by running the run_studyone_data.sh on the HPC cluster.
