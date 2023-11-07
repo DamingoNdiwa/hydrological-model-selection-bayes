@@ -1,7 +1,8 @@
-# Hydrological model selection with Bayes factors
+# Hydrological model selection using Bayes factors
 
-
-This repository contains code for the paper "Selecting a conceptual hydrological model using Bayes' factors computed with Replica Exchange Hamiltonian Monte Carlo". 
+This repository contains supporting code for the paper "Selecting a conceptual
+hydrological model using Bayes' factors computed with Replica Exchange
+Hamiltonian Monte Carlo" by Mingo et al. 
 
 # Dependencies
 
@@ -10,10 +11,15 @@ The code is compatible with Python 3.10 and the dependencies specified in the
 
     pip install -r requirements.txt
 
-## data
-Contains the data and scripts for preprocessing.
+## Megala Creek Data `data/`
 
-## gaussian-shells
+This folder contains a folder `megala_creek_australia/` with the raw data for
+the Magala Creek catchment along with a script `prepare_megala_creek_data.py`
+that places the data into a Pandas dataframe saved at
+`megala_creek_australia.pkl.gz` for easier loading in the studies one and two.
+
+## Gaussian shell example `gaussian_shell`
+
 This folder has scripts for the Gaussian shell examples.
 
 1. First, run the scripts `gaussian_shell.py`, `study_one.py`, `study_one20.py`,
