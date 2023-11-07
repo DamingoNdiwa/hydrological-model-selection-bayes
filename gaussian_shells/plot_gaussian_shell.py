@@ -50,10 +50,3 @@ fig.colorbar(ab, shrink=0.9)
 ax.set_xlabel(r'$\theta_2$', fontsize=18)
 ax.set_ylabel(r'$\theta_1$', fontsize=18, rotation='horizontal')
 fig.savefig("./gauss_contours.pdf", dpi=150)
-
-
-fig, ax = plt.subplots(figsize=(8., 5.))
-ab = ax.contour(grid[..., 0], grid[..., 1], loglikelihood(grid))
-fig.colorbar(ab, shrink=0.8)
-ax.set_xlabel(r'$\theta_2$', fontsize=18)
-ax.set_ylabel(r'$\theta_1$', fontsize=18, rotation='horizontal')

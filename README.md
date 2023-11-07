@@ -35,11 +35,9 @@ missing values on some days.
 
 This folder contains scripts for the Gaussian shell examples.
 
-1. First, run the scripts `gaussian_shell.py`, `study_one.py`, `study_one20.py`,
-   `study_one30.py` in any order and finally `study_one_postprocess.py`.
-2. The script study_one_postprocess.py needs to be run on HPC because many
-   scripts run in parallel.
-3. The plotGaussianshell.py and Gaussian_nuts_mala_rephmc.py can be run in any order.
+For a basic plot using the proposed algorithm, run:
+
+    python3 gaussian_shell.py
 
 ## Experiment one - synthetic discharge `experiment_one/`
 
