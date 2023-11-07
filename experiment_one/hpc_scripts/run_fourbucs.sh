@@ -22,5 +22,3 @@ source $HOME/damian/damian-venv/bin/activate
 
 # TODO: On more modern GNU parallel this makes 01, 02, ..., 15
 parallel -j15 --plus python3 ./fourbuckets.py --output_dir ./{0#} ::: {1..15}
-
-
