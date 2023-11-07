@@ -1,0 +1,16 @@
+arviz
+cftime
+cloudpickle
+jax
+jaxlib
+netCDF4
+numpy
+pandas
+pathlib
+python-dateutil
+tensorflow-probability
+statsmodels
+matplotlib
+pymcmcstat
+seaborn
+SciencePlots

@@ -5,11 +5,9 @@ hydrological model using Bayes' factors computed with Replica Exchange
 Hamiltonian Monte Carlo" by Mingo et al.
 
 This code is licensed under the GNU Lesser General Public License version 3 or
-later.
+later, see `COPYING` and `COPYING.LESSER`.
 
-TODO:
-
-Place full citation to pre-print and accepted article.
+*TODO: Place full citation to pre-print, accepted article and Zenodo version.*
 
 # Dependencies
 
@@ -22,6 +20,9 @@ The code is compatible with Python 3.10 and the dependencies specified in the
 
     pip install -r requirements.txt
 
+The file `requirements-not-fixed.txt` contains the same dependencies without
+fixed version requirements.
+
 ## Megala Creek data `data/`
 
 The folder `megala_creek_australia/` contains the raw data for the Magala Creek
@@ -30,9 +31,9 @@ data into a Pandas dataframe saved at `megala_creek_australia.pkl.gz` for
 straightforward ingestion into the main scripts. Note that the data contains
 missing values on some days.
 
-## Gaussian shell `gaussian_shell/`
+## Gaussian shells `gaussian_shells/`
 
-This folder has scripts for the Gaussian shell examples.
+This folder contains scripts for the Gaussian shell examples.
 
 1. First, run the scripts `gaussian_shell.py`, `study_one.py`, `study_one20.py`,
    `study_one30.py` in any order and finally `study_one_postprocess.py`.
