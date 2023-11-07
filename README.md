@@ -1,14 +1,23 @@
-# HdromodSelectRephmc
-This repository contains code for the paper "xxxx". The requirement.txt file
-includes the Python packages used for the article.
+# Hydrological model selection with Bayes factors
+
+
+This repository contains code for the paper "Selecting a conceptual hydrological model using Bayes' factors computed with Replica Exchange Hamiltonian Monte Carlo". 
+
+# Dependencies
+
+The code is compatible with Python 3.10 and the dependencies specified in the
+`requirements.txt` file.
+
+    pip install -r requirements.txt
 
 ## data
 Contains the data and scripts for preprocessing.
 
 ## gaussian-shells
 This folder has scripts for the Gaussian shell examples.
-1. First, run the scripts gaussian_shell.py, study_one.py, study_one20.py,
-   study_one30.py in any order and finally study_one_postprocess.py.
+
+1. First, run the scripts `gaussian_shell.py`, `study_one.py`, `study_one20.py`,
+   `study_one30.py` in any order and finally `study_one_postprocess.py`.
 2. The script study_one_postprocess.py needs to be run on HPC because many
    scripts run in parallel.
 3. The plotGaussianshell.py and Gaussian_nuts_mala_rephmc.py can be run in any order.
@@ -17,10 +26,17 @@ This folder has scripts for the Gaussian shell examples.
 The folder studyone contains codes for the first experiment. 
 
 1. First, generate data by running the run_studyone_data.sh on the HPC cluster.
-2. Then run the three other files that end in sh. The files give each model's parameter estimates and log marginal likelihood.
-3. The results can be transferred for further processing in which cases the codes are in the post processing folder.
-4. The subfolder ppc contains codes for the posterior predictive check. Here first, generate the data by running run_studyone_data.sh. Then, run the other scripts ending in sh to get the results. The results can be transferred for post-processing.
-5. The models can be run many times in parallel by specifying the number of times in the files ending in sh.
+2. Then run the three other files that end in sh. The files give each model's
+   parameter estimates and log marginal likelihood.
+3. The results can be transferred for further processing in which cases the
+   codes are in the post processing folder.
+4. The subfolder ppc contains codes for the posterior predictive check. Here
+   first, generate the data by running run_studyone_data.sh. Then, run the
+   other scripts ending in sh to get the results. The results can be
+   transferred for post-processing.
+5. The models can be run many times in parallel by specifying the number of
+   times in the files ending in sh.
+
 ## studytwo
 The folder studytwo contains codes for the second experiment.
 
