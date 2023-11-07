@@ -2,7 +2,10 @@
 
 This repository contains supporting code for the paper "Selecting a conceptual
 hydrological model using Bayes' factors computed with Replica Exchange
-Hamiltonian Monte Carlo" by Mingo et al. 
+Hamiltonian Monte Carlo" by Mingo et al.
+
+This code is licensed under the GNU Lesser General Public License version 3 or
+later.
 
 TODO:
 
@@ -11,7 +14,8 @@ Place full citation to pre-print and accepted article.
 # Dependencies
 
 The primary dependencies are JAX and Tensorflow Probability using the JAX
-backend. Secondary dependencies for pre and post-processing 
+backend. Secondary dependencies for pre and post-processing include various
+plotting and statistical libraries. 
 
 The code is compatible with Python 3.10 and the dependencies specified in the
 `requirements.txt` file:
@@ -23,10 +27,10 @@ The code is compatible with Python 3.10 and the dependencies specified in the
 The folder `megala_creek_australia/` contains the raw data for the Magala Creek
 catchment in text format. A script `prepare_megala_creek_data.py` places the
 data into a Pandas dataframe saved at `megala_creek_australia.pkl.gz` for
-straightforward ingestion into the main scripts. Note that the raw data
-contains missing values on particular days.
+straightforward ingestion into the main scripts. Note that the data contains
+missing values on some days.
 
-## Gaussian shell example `gaussian_shell`
+## Gaussian shell `gaussian_shell/`
 
 This folder has scripts for the Gaussian shell examples.
 
