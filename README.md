@@ -1,15 +1,22 @@
 # Hydrological model selection using Bayes factors
 
+## Introduction
+
 This repository contains supporting code for the paper "Selecting a conceptual
 hydrological model using Bayes' factors computed with Replica Exchange
 Hamiltonian Monte Carlo" by Mingo et al.
 
+*TODO: Place full citation to pre-print, accepted article and Zenodo version.*
+
 This code is licensed under the GNU Lesser General Public License version 3 or
 later, see `COPYING` and `COPYING.LESSER`.
 
-*TODO: Place full citation to pre-print, accepted article and Zenodo version.*
+Some studies/results were executed on the University of Luxembourg HPC systems.
+The launch scripts are therefore specific to that cluster and are included in
+the `hpc_scripts/` subdirectory. It would be necessary to modify these job
+launch scripts to run these studies elsewhere.
 
-# Dependencies
+## Dependencies
 
 The primary dependencies are JAX and Tensorflow Probability using the JAX
 backend. Secondary dependencies for pre and post-processing include various
@@ -28,7 +35,7 @@ fixed version requirements.
 The folder `megala_creek_australia/` contains the raw data for the Magala Creek
 catchment in text format. A script `prepare_megala_creek_data.py` places the
 data into a Pandas dataframe saved at `megala_creek_australia.pkl.gz` for
-straightforward ingestion into the main scripts. Note that the data contains
+straightforward ingestion into the main scripts. Note that the dataset contains
 missing values on some days.
 
 ## Gaussian shells `gaussian_shells/`
@@ -41,22 +48,19 @@ For a basic plot using the proposed algorithm, run:
 
 ## Experiment one - synthetic discharge `experiment_one/`
 
-The folder studyone contains codes for the first experiment. 
+The folder `experiment_one/` contains codes for the first experiment where 
+the calibration data is generated from a forward run of model two.
 
-1. First, generate data by running the run_studyone_data.sh on the HPC cluster.
-2. Then run the three other files that end in sh. The files give each model's
-   parameter estimates and log marginal likelihood.
-3. The results can be transferred for further processing in which cases the
-   codes are in the post processing folder.
-4. The subfolder ppc contains codes for the posterior predictive check. Here
-   first, generate the data by running run_studyone_data.sh. Then, run the
-   other scripts ending in sh to get the results. The results can be
-   transferred for post-processing.
-5. The models can be run many times in parallel by specifying the number of
-   times in the files ending in sh.
+1. Generate data by executing `generate_data.py`.
+2. For the marginal likelihood calculation execute `twobuckets.py`, `threebuckets.py`
+   and `four_buckets.py`.
+3. The subfolder `ppc/` contains codes for the posterior predictive checks.
+4. The results can be transferred for post-processing in which cases the
+   scripts are in the root `post_processing/` folder.
 
-## studytwo
-The folder studytwo contains codes for the second experiment.
+## Experiment two - synthetic discharge `experiment_two/` 
+The folder `experiment_three/` contains codes for the first experiment where
+the calibration data is generated from a forward run of model three.
 
 * First run run_studytwo_data.sh to generate the data. 
 * Then run the other scripts ending in sh and save the results for post-processing.
