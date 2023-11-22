@@ -60,7 +60,7 @@ the calibration data is generated from a forward run of model two.
 
 ## Experiment two - synthetic discharge `experiment_two/` 
 
-The folder `experiment_two/` contains codes for the first experiment where 
+The folder `experiment_two/` contains codes for the second experiment where 
 the calibration data is generated from a forward run of model three.
 
 1. Generate data by executing `generate_data.py`.
@@ -70,16 +70,13 @@ the calibration data is generated from a forward run of model three.
 4. The results can be transferred for post-processing in which cases the
    scripts are in the root `post_processing/` folder.
 
-## realworld
-The folder realworld contains scripts when the models are calibrared and assessed against real. The
-scripts can be run in any order, and shell files can be run to get the results.
+## Experiment three - real discharge `real_world/` 
 
-* The file run_ppc3bucsrea.sh is to get the results for the posterior predictive check for the chosen model $M_3$.
-* The script ppc_cppp.py should be run after run_twobucs.sh, run_threebucs.sh, and un_fourbucs.sh. 
-* The script ppc_cppp.py uses results from the models to do posterior predictive checks.
+The folder `real_world/` contains codes for the third experiment where the
+models are calibrated and assessed against real data from Magala Creek.
 
-## post_process
+## Postprocessing - `postprocess/` 
 
-The folder post_process  has codes
-* To check for convergence with the real-world discharge data as examples. 
-* For the pair plots in with real-world discharge data as examples.
+The folder `postprocess/` contains scripts for generating posterior plots and
+chain convergence diagnostics from the results produced in experiments one, two
+and three. 
