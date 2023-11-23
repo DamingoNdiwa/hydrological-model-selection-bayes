@@ -1,8 +1,0 @@
-== Starting run at Tue Feb 21 06:00:05 CET 2023
-== Job name: ppc3rea
-== Job ID: 586249
-== Node list: aion-0001
-== Submit dir: /mnt/irisgpfs/users/dmingo/thesis-ideas/hbv/realworld
-== Number of tasks: 1
-WARNING:absl:No GPU/TPU found, falling back to CPU. (Set TF_CPP_MIN_LOG_LEVEL=0 and rerun for more info.)
-slurmstepd: error: *** JOB 586249 ON aion-0001 CANCELLED AT 2023-02-22T10:38:05 ***
