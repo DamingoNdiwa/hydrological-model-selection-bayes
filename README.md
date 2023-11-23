@@ -80,4 +80,4 @@ models are calibrated and assessed against real data from Magala Creek.
 The folder `postprocess/` contains scripts for generating posterior plots and
 chain convergence diagnostics from the results produced in experiments one, two
 and three. 
->>>>>>> origin/jhale/modifications
+
