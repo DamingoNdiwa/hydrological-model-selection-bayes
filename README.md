@@ -1,37 +1,82 @@
-# HdromodSelectRephmc
-This repository contains code for the paper "xxxx". The requirement.txt file includes the Python packages used for the article.
+# Hydrological model selection using Bayes factors
 
-## data
-Contains the data and scripts for preprocessing.
-## gaussian-shells
-This folder has scripts for the Gaussian shell examples.
-1. First, run the scripts gaussian_shell.py, study_one.py, study_one20.py, study_one30.py in any order and finally study_one_postprocess.py.
-2.  The script study_one_postprocess.py needs to be run on HPC because many scripts run in parallel.
-3.  The plotGaussianshell.py and Gaussian_nuts_mala_rephmc.py can be run in any order.
+## Introduction
 
-## studyone
-The folder studyone contains codes for the first experiment. 
+This repository contains supporting code for the paper "Selecting a conceptual
+hydrological model using Bayes' factors computed with Replica Exchange
+Hamiltonian Monte Carlo" by Mingo et al.
 
-1. First, generate data by running the run_studyone_data.sh on the HPC cluster.
-2. Then run the three other files that end in sh. The files give each model's parameter estimates and log marginal likelihood.
-3. The results can be transferred for further processing in which cases the codes are in the post processing folder.
-4. The subfolder ppc contains codes for the posterior predictive check. Here first, generate the data by running run_studyone_data.sh. Then, run the other scripts ending in sh to get the results. The results can be transferred for post-processing.
-5. The models can be run many times in parallel by specifying the number of times in the files ending in sh.
-## studytwo
-The folder studytwo contains codes for the second experiment.
+*TODO: Place full citation to pre-print, accepted article and Zenodo version.*
 
-* First run run_studytwo_data.sh to generate the data. 
-* Then run the other scripts ending in sh and save the results for post-processing.
-* The subfolder ppc is for the posterior predictive.
+This code is licensed under the GNU Lesser General Public License version 3 or
+later, see `COPYING` and `COPYING.LESSER`.
 
-## realworld
-The folder realworld contains scripts when real observed discharge is used. The scripts can be run in any order, and shell files can be run to get the results.
+Some studies were executed on the University of Luxembourg HPC systems. The
+launch scripts are specific to that cluster and are included in the
+`hpc_scripts/` subdirectory for reference. It would be necessary to modify
+these job launch scripts to run these studies on another cluster.
 
-* The file run_ppc3bucsrea.sh is to get the results for the posterior predictive check for the chosen model $M_3$.
-* The script ppc_cppp.py should be run after run_twobucs.sh, run_threebucs.sh, and un_fourbucs.sh. 
-* The script ppc_cppp.py uses results from the models to do posterior predictive checks.
-## post_process
+## Dependencies
 
-The folder post_process  has codes
-* To check for convergence with the real-world discharge data as examples. 
-* For the pair plots in with real-world discharge data as examples.
+The primary dependencies are JAX and Tensorflow Probability (using the JAX
+backend). Secondary dependencies for pre and post-processing include various
+plotting and statistical libraries. 
+
+The code is compatible with Python 3.10 and the dependencies specified in the
+`requirements.txt` file:
+
+    pip install -r requirements.txt
+
+The file `requirements-not-fixed.txt` contains the same dependencies without
+fixed version requirements.
+
+## Megala Creek data `data/`
+
+The folder `megala_creek_australia/` contains the raw data for the Magala Creek
+catchment in text format. A script `prepare_megala_creek_data.py` places the
+data into a Pandas dataframe saved at `megala_creek_australia.pkl.gz` for
+straightforward ingestion into the main scripts. Note that the dataset contains
+missing values on some days.
+
+## Gaussian shells `gaussian_shells/`
+
+This folder contains scripts for the Gaussian shell examples.
+
+For a basic plot using the proposed algorithm, run:
+
+    python3 gaussian_shell.py
+
+## Experiment one - synthetic discharge `experiment_one/`
+
+The folder `experiment_one/` contains codes for the first experiment where 
+the calibration data is generated from a forward run of model two.
+
+1. Generate data by executing `generate_data.py`.
+2. For the marginal likelihood calculation execute `twobuckets.py`,
+   `threebuckets.py` and `fourbuckets.py`.
+3. The subfolder `ppc/` contains codes for the posterior predictive checks.
+4. The results can be transferred for post-processing in which cases the
+   scripts are in the root `post_processing/` folder.
+
+## Experiment two - synthetic discharge `experiment_two/` 
+
+The folder `experiment_two/` contains codes for the second experiment where 
+the calibration data is generated from a forward run of model three.
+
+1. Generate data by executing `generate_data.py`.
+2. For the marginal likelihood calculation execute `twobuckets.py`,
+   `threebuckets.py` and `fourbuckets.py`.
+3. The subfolder `ppc/` contains codes for the posterior predictive checks.
+4. The results can be transferred for post-processing in which cases the
+   scripts are in the root `post_processing/` folder.
+
+## Experiment three - real discharge `real_world/` 
+
+The folder `real_world/` contains codes for the third experiment where the
+models are calibrated and assessed against real data from Magala Creek.
+
+## Postprocessing - `postprocess/` 
+
+The folder `postprocess/` contains scripts for generating posterior plots and
+chain convergence diagnostics from the results produced in experiments one, two
+and three. 

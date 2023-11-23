@@ -38,6 +38,8 @@ def calculate_PD_1(Dbar, Dhat):
     return PD_1
 
 # Calculate DIC using method 1
+
+
 def calculate_DIC_1(Dhat, PD_1):
     """
     Calculate DIC using method 1.
@@ -52,12 +54,16 @@ def calculate_DIC_1(Dhat, PD_1):
     DIC_1 = Dhat + 2 * PD_1
     return DIC_1
 
-#%%%
+# %%%
+
+
 def log_pw_pred_density(plpd):
     density = tfp.math.reduce_logmeanexp(plpd)
     return density
 
 # penalty term 1
+
+
 def PWAIC_1(plpd):
     lppd = log_pw_pred_density(plpd)
     plpd = jnp.mean(lppd)
@@ -66,6 +72,8 @@ def PWAIC_1(plpd):
     return samples4
 
 # penalty term 2
+
+
 def PWAIC_2(plpd):
     PWAIC2 = jnp.var(plpd, axis=0)
     return jnp.sum(PWAIC2)
@@ -79,9 +87,9 @@ def WAIC_1(plpd):
 
 # WAIC based on the second penalty term
 
+
 def WAIC_2(plpd):
     A = -2 * log_pw_pred_density(plpd)
     B = 2 * PWAIC_2(plpd)
     WAIC2 = A + B
     return WAIC2
-

@@ -1,4 +1,3 @@
-
 import logging
 from tensorflow_probability.substrates.jax.internal import tensor_util
 from tensorflow_probability.substrates.jax.internal import prefer_static as ps
@@ -12,6 +11,7 @@ from jax import jit, random
 from jax.random import PRNGKey
 import jax.numpy as jnp
 import matplotlib.pyplot as plt
+import scienceplots
 plt.style.use(['science', 'ieee'])
 config.update("jax_enable_x64", True)
 tf = tfp.tf2jax

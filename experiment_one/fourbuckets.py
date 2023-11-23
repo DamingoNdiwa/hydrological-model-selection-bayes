@@ -20,7 +20,7 @@ from tensorflow_probability.substrates.jax.mcmc.transformed_kernel import \
 from hbv import create_joint_posterior
 from utils import make_inverse_temperature_schedule
 from jax import grad, vmap
-from  ic import log_pw_pred_density, PWAIC_1, PWAIC_2, WAIC_1, WAIC_2, calculate_PD_1 , calculate_DIC_1, calculate_DIC_2
+from ic import log_pw_pred_density, PWAIC_1, PWAIC_2, WAIC_1, WAIC_2, calculate_PD_1, calculate_DIC_1, calculate_DIC_2
 
 tf = tfp.tf2jax
 tfd = tfp.distributions
@@ -42,7 +42,7 @@ def run_analysis(params):
 
     # HMC Parameters
     num_results = 3000
-    num_burnin_steps = 1000 
+    num_burnin_steps = 1000
     dual_adaptation_ratio = 0.8
     num_chains = 1
     step_size = 0.01
@@ -76,7 +76,7 @@ def run_analysis(params):
     # NOTE: These are not the same as the parameters in your scripts!
 
     model_prior_params = {
-        "n":4,
+        "n": 4,
         "k": {"loc": jnp.log(jnp.array([1.0, 0.2, 0.4, 0.6])),
               "scale": jnp.array([0.25, 0.25, 0.25, 0.25])},
         "k_int": {"loc": jnp.array([0.8, 0.2, 0.4]),
@@ -92,7 +92,6 @@ def run_analysis(params):
         "evapotranspiration": evapotranspiration
     }
 
-
     dist = create_joint_posterior(model_prior_params)
 
     # TODO: Make truly random like Gaussian shells example
@@ -107,11 +106,11 @@ def run_analysis(params):
 
     def make_kernel_fn(target_log_prob_fn):
         kernel_hmc = tfp.experimental.mcmc.PreconditionedHamiltonianMonteCarlo(
-                target_log_prob_fn=target_log_prob_fn,
-                num_leapfrog_steps=num_leapfrog_steps,
-                step_size=step_size)
+            target_log_prob_fn=target_log_prob_fn,
+            num_leapfrog_steps=num_leapfrog_steps,
+            step_size=step_size)
         kernel_dassa = tfp.mcmc.DualAveragingStepSizeAdaptation(
-                inner_kernel=kernel_hmc, num_adaptation_steps=int(0.8 * num_burnin_steps))
+            inner_kernel=kernel_hmc, num_adaptation_steps=int(0.8 * num_burnin_steps))
         return kernel_dassa
 
     # NOTE: I wonder if we could make this into a function in utils so
@@ -157,11 +156,10 @@ def run_analysis(params):
     posterior_samples, posterior_samples_betas = run_remc_chain_jit(subkey)
     print("REMC finished.")
 
-
     # posterior parameters beta=1
     parameter_names = posterior._flat_resolve_names()
-    posterior_samp = {k: jnp.swapaxes( v, 0, 1) for k, v in zip(
-            parameter_names, posterior_samples)}
+    posterior_samp = {k: jnp.swapaxes(v, 0, 1) for k, v in zip(
+        parameter_names, posterior_samples)}
 
     def log_likelihood_fn(*samples):
         log_prob_parts = posterior.unnormalized_log_prob_parts(*samples)
@@ -170,9 +168,10 @@ def run_analysis(params):
 
     # posterior parameters beta=1
     ll = log_likelihood_fn(posterior_samples)
-    az_trace = az.from_dict(posterior=posterior_samp,  observed_data={"observations": y_obs}, log_likelihood={'ll': ll})   
+    az_trace = az.from_dict(posterior=posterior_samp,  observed_data={
+                            "observations": y_obs}, log_likelihood={'ll': ll})
     print(az.summary(az_trace))
-    
+
     az.to_netcdf(az_trace, 'hbvresult4bucsone')
 
     print("Calculating marginal likelihood.")
@@ -181,10 +180,11 @@ def run_analysis(params):
     marginal_likelihood = -jnp.trapz(mll, inverse_temperatures, axis=0)
 
     print(f"Marginal likelihood: {marginal_likelihood}")
- 
-    df4 = pd.DataFrame(dict(mll=jnp.reshape(mll, num_betas), temp=inverse_temperatures))
+
+    df4 = pd.DataFrame(dict(mll=jnp.reshape(
+        mll, num_betas), temp=inverse_temperatures))
     df4.to_csv('meanlogll14bucs.csv', index=False)
-    
+
     # Input parameters
     params["num_burnin_steps"] = num_burnin_steps
     params["dual_adaptation_ratio"] = dual_adaptation_ratio
@@ -203,16 +203,16 @@ def run_analysis(params):
     print(f'Writing results to {params["output_dir"]/"results.npz"}...')
     np.savez(params["output_dir"] / "results.npz", **results)
     print("Finished.")
-    
+
     names = parameter_names
     for i in range(len(names)):
         names[i] = jnp.squeeze(posterior_samples[i])
     post_samples = pd.DataFrame(np.column_stack((names)))
     post_samples.to_csv('post1_4bucs.csv', index=False)
-    
 
     # For DIC
     # Calculate the deviance of the posterior mean
+
     def calculate_Dhat(m_bar):
         Dhat = -2 * log_likelihood_fn(m_bar)
         return Dhat
@@ -233,14 +233,13 @@ def run_analysis(params):
     v_init = jnp.mean(posterior_samples.v_init, axis=0)
     v_max = jnp.mean(posterior_samples.v_max, axis=0)
     sigma = jnp.mean(posterior_samples.sigma, axis=0)
-    m_bar = [k, k_int, v_init, v_max, sigma ]
+    m_bar = [k, k_int, v_init, v_max, sigma]
     Dbar = calculate_Dbar(posterior_samples)
     Dhat = calculate_Dhat(m_bar)
     PD_1 = calculate_PD_1(Dbar, Dhat)
     PD_2 = calculate_PD_2(posterior_samples)
     DIC_1 = calculate_DIC_1(Dhat, PD_1)
     DIC_2 = calculate_DIC_2(Dbar, PD_2)
-
 
     # BIC
     # Calculate the BIC
@@ -264,6 +263,7 @@ def run_analysis(params):
     print("az_waic:", b)
     print("DIC_1:", DIC_1)
     print("DIC_2:", DIC_2)
+
 
 if __name__ == "__main__":
     print("Started.")

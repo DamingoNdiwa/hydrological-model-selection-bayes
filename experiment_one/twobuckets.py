@@ -19,8 +19,7 @@ from tensorflow_probability.substrates.jax.mcmc.transformed_kernel import \
 
 from hbv import create_joint_posterior
 from utils import make_inverse_temperature_schedule
-from jax import grad, vmap
-from  ic import log_pw_pred_density, PWAIC_1, PWAIC_2, WAIC_1, WAIC_2, calculate_PD_1 , calculate_DIC_1, calculate_DIC_2
+from ic import log_pw_pred_density, PWAIC_1, PWAIC_2, WAIC_1, WAIC_2, calculate_PD_1, calculate_DIC_1, calculate_DIC_2
 
 tf = tfp.tf2jax
 tfd = tfp.distributions
@@ -41,12 +40,12 @@ def run_analysis(params):
     num_betas = 10
 
     # HMC Parameters
-    num_results = 3000
-    num_burnin_steps = 1000
+    num_results = 20000
+    num_burnin_steps = 5000
     dual_adaptation_ratio = 0.8
     num_chains = 1
-    step_size = 0.01 
-    num_leapfrog_steps = 40 # 100
+    step_size = 0.01
+    num_leapfrog_steps = 40
 
     # Load data
     df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
@@ -75,11 +74,11 @@ def run_analysis(params):
     # NOTE: Should discuss these parameters this week.
     # NOTE: These are not the same as the parameters in your scripts!
     model_prior_params = {
-        "n": 3,
-        "k": {"loc":jnp.log(jnp.array([1.0, 0.2, 0.2])),
-              "scale": jnp.array([0.25, 0.25, 0.25])},
-        "k_int": {"loc": jnp.array([0.8, 0.4]),
-                  "scale": jnp.array([0.25, 0.25])},
+        "n": 2,
+        "k": {"loc": jnp.log(jnp.array([1.0, 0.2])),
+              "scale": jnp.array([0.25, 0.25])},
+        "k_int": {"loc": jnp.array([0.8]),
+                  "scale": jnp.array([0.25])},
         "v_init": {"loc": tf.cast(0.0, dtype=jnp.float64),
                    "scale": tf.cast(0.25, dtype=jnp.float64)},
         "v_max": {"loc": tf.cast(1.0, dtype=jnp.float64),
@@ -105,11 +104,11 @@ def run_analysis(params):
 
     def make_kernel_fn(target_log_prob_fn):
         kernel_hmc = tfp.experimental.mcmc.PreconditionedHamiltonianMonteCarlo(
-                target_log_prob_fn=target_log_prob_fn,
-                num_leapfrog_steps=num_leapfrog_steps,
-                step_size=step_size)
+            target_log_prob_fn=target_log_prob_fn,
+            num_leapfrog_steps=num_leapfrog_steps,
+            step_size=step_size)
         kernel_dassa = tfp.mcmc.DualAveragingStepSizeAdaptation(
-                inner_kernel=kernel_hmc, num_adaptation_steps=int(0.8 * num_burnin_steps))
+            inner_kernel=kernel_hmc, num_adaptation_steps=int(0.8 * num_burnin_steps))
         return kernel_dassa
 
     # NOTE: I wonder if we could make this into a function in utils so
@@ -155,10 +154,10 @@ def run_analysis(params):
     posterior_samples, posterior_samples_betas = run_remc_chain_jit(subkey)
     print("REMC finished.")
 
-    # posterior parameters beta=1
+    # for post procession with arviz
     parameter_names = posterior._flat_resolve_names()
-    posterior_samp = {k: jnp.swapaxes( v, 0, 1) for k, v in zip(
-            parameter_names, posterior_samples)}
+    posterior_samp = {k: jnp.swapaxes(v, 0, 1) for k, v in zip(
+        parameter_names, posterior_samples)}
 
     def log_likelihood_fn(*samples):
         log_prob_parts = posterior.unnormalized_log_prob_parts(*samples)
@@ -167,11 +166,12 @@ def run_analysis(params):
 
     # posterior parameters beta=1
     ll = log_likelihood_fn(posterior_samples)
-    az_trace = az.from_dict(posterior=posterior_samp,  observed_data={"observations": y_obs}, log_likelihood={'ll': ll})
+    az_trace = az.from_dict(posterior=posterior_samp,  observed_data={
+                            "observations": y_obs}, log_likelihood={'ll': ll})
 
     print(az.summary(az_trace))
-    #print(posterior_samp)
-    az.to_netcdf(az_trace, 'hbvresult3bucsone')
+    # print(posterior_samp)
+    az.to_netcdf(az_trace, 'hbvresult2bucsstudyone')
 
     print("Calculating marginal likelihood.")
     mll = log_likelihood_fn(posterior_samples_betas)
@@ -179,10 +179,11 @@ def run_analysis(params):
     marginal_likelihood = -jnp.trapz(mll, inverse_temperatures, axis=0)
 
     print(f"Marginal likelihood: {marginal_likelihood}")
- 
-    df3 = pd.DataFrame(dict(mll=jnp.reshape(mll, num_betas), temp=inverse_temperatures))
-    df3.to_csv('meanlogll13bucs.csv', index=False)
-    
+
+    df2 = pd.DataFrame(dict(mll=jnp.reshape(
+        mll, num_betas), temp=inverse_temperatures))
+    df2.to_csv('meanlogll12bucs.csv', index=False)
+
     # Input parameters
     params["num_burnin_steps"] = num_burnin_steps
     params["dual_adaptation_ratio"] = dual_adaptation_ratio
@@ -201,14 +202,14 @@ def run_analysis(params):
     print(f'Writing results to {params["output_dir"]/"results.npz"}...')
     np.savez(params["output_dir"] / "results.npz", **results)
     print("Finished.")
-    
+
     names = parameter_names
 
     for i in range(len(names)):
         names[i] = jnp.squeeze(posterior_samp.get(names[i]))
     post_save = pd.DataFrame(np.column_stack((names)))
-    post_save.to_csv('post1_3bucs.csv', index=False)
-    
+    post_save.to_csv('cpost1_2bucs.csv', index=False)
+
     # For DIC
     # Calculate the deviance of the posterior mean
     def calculate_Dhat(m_bar):
@@ -231,7 +232,7 @@ def run_analysis(params):
     v_init = jnp.mean(posterior_samples.v_init, axis=0)
     v_max = jnp.mean(posterior_samples.v_max, axis=0)
     sigma = jnp.mean(posterior_samples.sigma, axis=0)
-    m_bar = [k, k_int, v_init, v_max, sigma ]
+    m_bar = [k, k_int, v_init, v_max, sigma]
     Dbar = calculate_Dbar(posterior_samples)
     Dhat = calculate_Dhat(m_bar)
     PD_1 = calculate_PD_1(Dbar, Dhat)
@@ -239,11 +240,10 @@ def run_analysis(params):
     DIC_1 = calculate_DIC_1(Dhat, PD_1)
     DIC_2 = calculate_DIC_2(Dbar, PD_2)
 
-
     # BIC
     # Calculate the BIC
-    bic = -2 * jnp.sum(log_likelihood_fn(m_bar)) + 10 * jnp.log(num_days)
-    
+    bic = -2 * jnp.sum(log_likelihood_fn(m_bar)) + 7 * jnp.log(num_days)
+
     # For WAIC
     def pw_log_pred_density(posterior_samples):
         ppd = log_likelihood_fn(posterior_samples)
@@ -262,6 +262,7 @@ def run_analysis(params):
     print("az_waic:", b)
     print("DIC_1:", DIC_1)
     print("DIC_2:", DIC_2)
+
 
 if __name__ == "__main__":
     print("Started.")

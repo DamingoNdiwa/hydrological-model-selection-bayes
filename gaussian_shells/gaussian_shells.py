@@ -4,6 +4,7 @@ import pathlib
 import pprint
 from random import SystemRandom
 import subprocess
+import scienceplots
 
 import jax
 import jax.numpy as jnp
