@@ -81,3 +81,4 @@ The folder `postprocess/` contains scripts for generating posterior plots and
 chain convergence diagnostics from the results produced in experiments one, two
 and three. 
 
+[![DOI](https://zenodo.org/badge/605141673.svg)](https://zenodo.org/doi/10.5281/zenodo.10202092)
