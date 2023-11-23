@@ -68,7 +68,7 @@ the calibration data is generated from a forward run of model three.
    `threebuckets.py` and `fourbuckets.py`.
 3. The subfolder `ppc/` contains codes for the posterior predictive checks.
 4. The results can be transferred for post-processing in which cases the
-   scripts are in the root `post_processing/` folder.
+   script is in the root `postprocess/` folder.
 
 ## Experiment three - real discharge `real_world/` 
 
