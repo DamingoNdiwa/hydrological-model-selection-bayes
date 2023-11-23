@@ -1,5 +1,5 @@
 # HdromoSelectRehmc
-This repository contains code for the paper "xxxx". The requirement.txt file includes the Python packages used for the article.
+This repository contains code for the paper "xxxx". The `requirement.txt` file includes the Python packages used for the article.
 
 ## Study one
 The folder studyone contains codes for the first experiment. 

@@ -7,15 +7,10 @@ import arviz as az
 import jax
 import jax.numpy as jnp
 import jax.random as random
-import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import tensorflow_probability.substrates.jax as tfp
 from jax import jit
-from jax.random import PRNGKey
-from tensorflow_probability.substrates.jax import bijectors
-from tensorflow_probability.substrates.jax.mcmc.transformed_kernel import \
-    TransformedTransitionKernel
 
 from hbv import create_joint_posterior
 from utils import make_inverse_temperature_schedule
@@ -65,7 +60,7 @@ def run_analysis(params):
                 ).astype('timedelta64[D]').astype(int) + 1
 
     # Times to observe solution
-    T = jnp.float64(num_days)
+    jnp.float64(num_days)
     t_obs = jnp.arange(0, num_days) + 0.5
     precipitation = jnp.array(df['precipitation'], dtype=jnp.float64)
     evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
