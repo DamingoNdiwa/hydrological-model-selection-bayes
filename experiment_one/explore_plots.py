@@ -5,6 +5,7 @@ import matplotlib.dates as mdates
 import jax
 import jax.numpy as jnp
 import jax.random as random
+import scienceplots
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -24,7 +25,7 @@ os.environ["XLA_FLAGS"] = ("--xla_cpu_multi_thread_eigen=false "
 
 
 # Load data
-df = pd.read_pickle("../../megala_creek_australia.pkl.gz")
+df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
 
 
 # Slice out 1980
@@ -124,7 +125,7 @@ fig.set_figwidth(6)
 plt.savefig("./f366.pdf")
 
 # Slice out first three months of 1980
-df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-03-31')]
+df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-05-29')]
 
 t_start = 0.0  # days
 num_days = (df['date'].values[-1] - df['date'].values[0]
@@ -160,16 +161,18 @@ model_prior_params = {
 dist = create_joint_posterior(model_prior_params)
 # Get samples from prior predictve distribution
 
-*prior, prior_predictive = dist.sample(seed=subkey)
+*prior, prior_predictive2 = dist.sample(5000, seed=subkey)
+mu = jnp.mean(prior_predictive2, axis=0)
+pi = jnp.percentile(prior_predictive2, jnp.array([2.5, 97.5]), axis=0)
 
 # for legend
 legend_elements = [
     Line2D(
         [0],
         [0],
-        color='r',
+        color='g',
         lw=0.6,
-        label='Synthetic discharge',
+        label='Precipitation (Actual data)',
         alpha=0.7),
     Line2D(
         [0],
@@ -181,28 +184,42 @@ legend_elements = [
     Line2D(
         [0],
         [0],
-        color='g',
+        color='r',
         lw=0.6,
-        label='Precipitation (Actual data)',
-        alpha=0.7)]
+        label='Prior predictive mean discharge',
+        alpha=0.7),
+    Line2D(
+        [0],
+        [0],
+        lw=2,
+        color='k',
+        alpha=0.5,
+        label='95\\% pointwise credible intervals')]
 
 # plot for the first three months
 
 fig = plt.figure()
 ax2 = fig.add_subplot(111)
-ax2.plot(df.year.values, prior_predictive, color='r', ls='-', lw=0.6)
+ax2.plot(df.year.values, mu, color='r', lw=0.6, ls='-')
 ax2.plot(df.year.values, discharge, 'b', lw=0.6)
+ax2.fill_between(
+    df.year.values,
+    pi[0],
+    pi[1],
+    edgecolor="None",
+    facecolor="k",
+    alpha=0.5,
+    label='95\\% pointwise credible intervals')
 ax2.tick_params(axis='x')
-ax2.set_xticks([0, 11, 22, 33, 44, 55, 66, 77, 91])
+ax2.set_xticks([0, 21, 43, 66, 87, 108, 129, 150])
 ax2.set_xticklabels(['01-01',
-                     '11-01',
                      '22-01',
-                     '02-02',
                      '13-02',
-                     '24-02',
                      '06-03',
-                     '17-03',
-                     '31-03'],
+                     '27-03',
+                     '17-04',
+                     '08-05',
+                     '29-05'],
                     )
 ax2.set_ylabel(r'Discharge ($\mathrm{mmd^{-1}}$)', fontsize=10)
 ax3 = ax2.twinx()
@@ -216,7 +233,7 @@ ax3.legend(
     fontsize='small',
     borderaxespad=0.5,
     frameon=True)
-fig.set_figwidth(6)
+fig.set_figwidth(5)
 plt.savefig("./obsynpre.pdf")
 
 # posterior mean and 95 percent pointwise CI
@@ -274,16 +291,15 @@ ax4.invert_yaxis()
 ax4.bar(df.year.values, precipitation, width=0.6, color='g', alpha=0.7)
 ax4.set_ylabel(r'Precipitation ($\mathrm{mmd^{-1}}$)', fontsize=10)
 ax4.set_xlabel('Date')
-ax4.set_xticks([0, 11, 22, 33, 44, 55, 66, 77, 91])
+ax4.set_xticks([0, 21, 43, 66, 87, 108, 129, 150])
 ax4.set_xticklabels(['01-01',
-                     '11-01',
                      '22-01',
-                     '02-02',
                      '13-02',
-                     '24-02',
                      '06-03',
-                     '17-03',
-                     '31-03'],
+                     '27-03',
+                     '17-04',
+                     '08-05',
+                     '29-05'],
                     )
 fig.set_figwidth(6)
 plt.savefig('./prior_pc.pdf')
