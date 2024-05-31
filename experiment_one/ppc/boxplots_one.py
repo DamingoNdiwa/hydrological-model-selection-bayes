@@ -1,7 +1,7 @@
-import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import jax.numpy as jnp
+import scienceplots
 from jax.config import config
 config.update("jax_enable_x64", True)
 plt.style.use(['science', 'ieee'])
@@ -103,27 +103,39 @@ dicex1 = dicex1.rename(
         'M3': r'$M_3$',
         'M4': r'$M_4$'})
 
-fig, axs = plt.subplots(2, 1, sharex=False)
+
 # First subplot
-sns.boxplot(
-    dicex1,
-    ax=axs[0],
-    color='k',
-    medianprops={
-        "color": "red"},
-    flierprops=dict(
-        marker='.'))
-axs[0].set_ylabel("DIC")
+fig = plt.figure()
+
+# Add the first subplot (large one on the left)
+ax1 = fig.add_subplot(1, 2, 1)
+ax1.boxplot([M2, M3, M4], patch_artist=True, flierprops=dict(
+    marker='.', ms=5, markerfacecolor='k'))
+ax1.set_xticks([1, 2, 3], [r'$M_2$', r'$M_3$', r'$M_4$'])
+ax1.set_ylabel('Log marginal likelihood', fontsize=10)
+ax1.set_xlabel('Models', fontsize=10)
+ax1.text(-0.25, 1.1, '(a)', transform=ax1.transAxes, fontsize=14, fontweight='bold', verticalalignment='top', horizontalalignment='left')
+
+
 # Second subplot
-sns.boxplot(
-    wAicex1,
-    ax=axs[1],
-    color='k',
-    medianprops={
-        "color": "red"},
-    flierprops=dict(
-        marker='.'))
-axs[1].set_xlabel("Models", fontsize=10)
-axs[1].set_ylabel("WAIC")
-fig.set_figwidth(4)
+ax2 = fig.add_subplot(2, 2, 2)
+ax2.boxplot(dicex1, patch_artist=True, flierprops=dict(
+    marker='.', ms=5, markerfacecolor='k'))
+ax2.set_xticks([1, 2, 3], [r'$M_2$', r'$M_3$', r'$M_4$'])
+ax2.set_ylabel('DIC')
+ax2.text(-0.2, 1.2, '(b)', transform=ax2.transAxes, fontsize=14, fontweight='bold', verticalalignment='top', horizontalalignment='left')
+
+
+# third subplot
+ax3 = fig.add_subplot(2, 2, 4)
+ax3.boxplot(wAicex1, patch_artist=True, flierprops=dict(
+    marker='.', ms=5, markerfacecolor='k'))
+ax3.set_xticks([1, 2, 3], [r'$M_2$', r'$M_3$', r'$M_4$'])
+ax3.set_xlabel("Models", fontsize=10)
+ax3.set_ylabel("WAIC")
+ax3.text(-0.2, 1.2, '(c)', transform=ax3.transAxes, fontsize=14, fontweight='bold', verticalalignment='top', horizontalalignment='left')
+
+fig.subplots_adjust(wspace=0.4, hspace=0.3)
+fig.set_figheight(2.5)
+fig.set_figwidth(5)
 plt.savefig("./ic_ex1.pdf")
