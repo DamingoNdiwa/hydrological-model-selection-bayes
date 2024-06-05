@@ -9,7 +9,7 @@ hydrological model using Bayes' factors computed with Replica Exchange
 Hamiltonian Monte Carlo and Thermodynamic Integration, EGUsphere [preprint],
 https://doi.org/10.5194/egusphere-2023-2865, 2024.
 
-This code is archived at
+This code is archived at:
 
 Mingo, N. D. and Hale, J. S.: Selecting a conceptual hydrological model using
 Bayes’ factors, https://doi.org/10.5281/zenodo.10202093, 2023.
