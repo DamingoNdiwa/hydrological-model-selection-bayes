@@ -31,7 +31,7 @@ print(mll2)
 # Interpolation
 
 mll2.to_csv("marginal_likelihoods2.csv", index=False)
-mll = pd.read_csv('./marginal_likelihoods.csv' )
+mll = pd.read_csv('./marginal_likelihoods2.csv' )
 x_new = np.linspace(betas.min(), betas.max(), 300)
 spl = make_interp_spline(betas,  mll['marginal_likelihood'], k=1)
 y_smooth = spl(x_new)
