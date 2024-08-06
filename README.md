@@ -2,11 +2,17 @@
 
 ## Introduction
 
-This repository contains supporting code for the paper "Selecting a conceptual
-hydrological model using Bayes' factors computed with Replica Exchange
-Hamiltonian Monte Carlo" by Mingo et al.
+This repository contains supporting code for the paper:
 
-*TODO: Place full citation to pre-print, accepted article and Zenodo version.*
+Mingo, D. N., Nijzink, R., Ley, C., and Hale, J. S.: Selecting a conceptual
+hydrological model using Bayes' factors computed with Replica Exchange
+Hamiltonian Monte Carlo and Thermodynamic Integration, EGUsphere [preprint],
+https://doi.org/10.5194/egusphere-2023-2865, 2024.
+
+This code is archived at:
+
+Mingo, N. D. and Hale, J. S.: Selecting a conceptual hydrological model using
+Bayes’ factors, https://doi.org/10.5281/zenodo.10202093, 2023.
 
 This code is licensed under the GNU Lesser General Public License version 3 or
 later, see `COPYING` and `COPYING.LESSER`.
