@@ -38,7 +38,7 @@ def run_analysis(params):
         os.makedirs(output_dir)
 
     # Thermodynamic integration
-    num_betas = 10
+    num_betas = 48
 
     # HMC Parameters
     num_results = 3000
@@ -75,7 +75,6 @@ def run_analysis(params):
     # NOTE: Should discuss these parameters this week.
     # NOTE: These are not the same as the parameters in your scripts!
 
-    #k_int 0.6 in place of 1.5
     model_prior_params = {
         "n":2,
         "k": {"loc": jnp.log(jnp.array([0.8, 0.2])),

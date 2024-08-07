@@ -39,7 +39,7 @@ def run_analysis(params):
         os.makedirs(output_dir)
 
     # Thermodynamic integration
-    num_betas = 10
+    num_betas = 48
 
     # HMC Parameters
     num_results = 3000
