@@ -20,5 +20,5 @@ echo "== Number of tasks: ${SLURM_NTASKS}"
 
 module load lang/Python/3.8.6-GCCcore-10.2.0
 source $HOME/damian/damian-venv/bin/activate
-python3 ppcstudytwo_3bucs.py
+python3 ../ppcstudytwo_3bucs.py
 conda deactivate
