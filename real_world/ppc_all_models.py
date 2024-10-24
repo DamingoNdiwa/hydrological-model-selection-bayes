@@ -85,7 +85,7 @@ legend_elementsm3 = [
         [0],
         ls='-',
         color='b',
-        label='Obseved discharge',
+        label='Observed discharge',
         alpha=0.6),
     Line2D(
         [0],
@@ -102,7 +102,7 @@ legend_elementsm2 = [
         [0],
         ls='-',
         color='b',
-        label='Obseved discharge',
+        label='Observed discharge',
         alpha=0.6),
     Line2D(
         [0],
@@ -119,7 +119,7 @@ legend_elementsm4 = [
         [0],
         ls='-',
         color='b',
-        label='Obseved discharge',
+        label='Observed discharge',
         alpha=0.6),
     Line2D(
         [0],
@@ -224,5 +224,4 @@ ax3.text(113, 16, "KGE = 0.808")
 fig.subplots_adjust(wspace=1.39, hspace=0.35)
 fig.set_figheight(8.0)
 fig.set_figwidth(7.0)
-#plt.savefig("./ppc234bucsrea.pdf", dpi=100000)
-plt.savefig("./ppc234bucsrea.jpg", dpi=300)
+plt.savefig("./ppc234bucsrea.pdf", dpi=100000)
