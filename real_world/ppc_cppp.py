@@ -7,6 +7,7 @@ from matplotlib.lines import Line2D
 from statsmodels.tsa.stattools import acf
 import matplotlib.dates as mdates
 from nse_kge import nash_sutcliffe, kling_gupta
+import scienceplots
 plt.style.use(['science', 'ieee'])
 config.update("jax_enable_x64", True)
 
@@ -25,7 +26,7 @@ discharge = jnp.array(df['observed_discharge'], dtype=jnp.float64)
 
 # Import the posterior predictve discharge values for model M3
 
-M3 = jnp.load('./ppc3buc06.npy', allow_pickle=True)
+M3 = jnp.load('hpc_scripts/ppc2bucsrea_iris.npy', allow_pickle=True)
 
 # Get the mean predicted values for model M3
 mu = jnp.mean(M3, axis=0)
@@ -63,7 +64,7 @@ ppc = np.count_nonzero(chains >= acf_yobs.reshape(152, 1)
 print(f'the ppp-value for model M3 is: {ppc}')
 
 # import data from prior predictive disrtibution
-prior_obs = jnp.load('./prior_obs.npy',allow_pickle=True)
+prior_obs = jnp.load('hpc_scripts/prior_obs.npy',allow_pickle=True)
 
 # calculate the prior calibrated posterior predictive pvalue
 n = len(prior_obs)
@@ -112,7 +113,7 @@ fig.set_figwidth(6)
 ax.set_ylim(-0.2, 1.1)
 ax.set_xlim(-0.15, 1.1)
 fig.set_figwidth(5)
-plt.savefig('./plots/ppcm3reauto.pdf')
+#plt.savefig('./plots/ppcm3reauto.pdf')
 
 # Get the nash-sutcliffe
 # Get the kling-gupta
@@ -127,15 +128,21 @@ legend_elements = [
         [0],
         ls='-',
         color='b',
-        label='Obseved discharge',
+        label='Observed discharge',
         alpha=0.67),
     Line2D(
         [0],
         [0],
         ls='-',
         color='r',
-        label=r'Model $M_3$',
-        alpha=0.67)]
+        label=r'Model $M_2$',
+        alpha=0.67),
+    Line2D(
+        [0],
+        [0],
+        color='g',
+        label='Precipitation',
+        alpha=0.7)]
 fig = plt.figure()
 ax1 = fig.add_subplot(111)
 ax1.plot(df.year.values, mu[0], 'r', alpha=0.6)
@@ -161,8 +168,8 @@ ax1.legend(handles=legend_elements, loc='best', bbox_to_anchor=(
     0.6, -0.25, 0.35, 0.95), fontsize='medium', frameon=True)
 ax1.fill_between(df.year.values, pi[0][0], pi[1][0],
                  color="k", alpha=0.4, interpolate=False, edgecolor='k')
-ax1.text(118, 22, "NSE = 0.400")
-ax1.text(118, 16, "KGE = 0.532")
+#ax1.text(118, 22, "NSE = 0.400")
+#ax1.text(118, 16, "KGE = 0.532")
 fig.set_figwidth(5)
 plt.savefig("./ppc3bucsrea.pdf")
 
