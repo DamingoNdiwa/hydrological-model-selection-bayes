@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+import scienceplots
 plt.style.use(['science', 'ieee'])
 config.update("jax_enable_x64", True)
 
@@ -30,16 +31,16 @@ y_obs1 = jnp.load('./data_1980.npy', allow_pickle=True)
 
 # load the posterior predictve discharge values
 # For M2
-M21 = jnp.load('./ppcstudyone2bucs.npy', allow_pickle=True)
+M21 = jnp.load('hpc_scripts/ppcstudyone2bucs.npy', allow_pickle=True)
 
 # For M3
-M31 = jnp.load('./ppcstudyone3bucs.npy', allow_pickle=True)
+M31 = jnp.load('hpc_scripts/ppcstudyone3bucs.npy', allow_pickle=True)
 
 # For M4
-M41 = jnp.load('./ppcstudyone4bucs.npy', allow_pickle=True)
+M41 = jnp.load('hpc_scripts/ppcstudyone4bucs.npy', allow_pickle=True)
 
 # import prior predictive samples
-prior_obs = jnp.load('./prior_obsm2.npy', allow_pickle=True)
+prior_obs = jnp.load('hpc_scripts/prior_obsm2.npy', allow_pickle=True)
 
 # get the mean of the posterior predictive discharge values
 M21_mu = jnp.mean(M21, axis=0)
@@ -90,7 +91,7 @@ ax1.set_xlabel('time (day)', fontsize=10)
 ax1.set_ylabel(r'Discharge ($\mathrm{mmd^{-1})}$', fontsize=10)
 ax1.legend(handles=legend_elements, loc='best', fontsize='small', frameon=True)
 fig.set_figwidth(5)
-plt.savefig("./ppc_studyone.pdf")
+plt.savefig("./ppc_studyone1.pdf")
 
 # Caculate the posterior predictive pppvalue for model M2
 n = len(M21)
