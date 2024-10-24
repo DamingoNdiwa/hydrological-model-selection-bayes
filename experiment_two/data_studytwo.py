@@ -30,7 +30,7 @@ os.environ["XLA_FLAGS"] = ("--xla_cpu_multi_thread_eigen=false "
 def run_analysis():
     
     # Load data
-    df = pd.read_pickle("../data/megala_creek_australia.pkl.gz")
+    df = pd.read_pickle("../../data/megala_creek_australia.pkl.gz")
 
     # Slice out first three months of 1980
     df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-03-31')]
