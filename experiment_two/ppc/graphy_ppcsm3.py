@@ -6,13 +6,14 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
+import scienceplots
 plt.style.use(['science', 'ieee'])
 config.update("jax_enable_x64", True)
 
 tf = tfp.tf2jax
 
 # Load data
-df = pd.read_pickle("../megala_creek_australia.pkl.gz")
+df = pd.read_pickle("../../data/megala_creek_australia.pkl.gz")
 
 # Slice out first three months of 1980
 df = df[(df['date'] >= '1980-01-01') & (df['date'] <= '1980-03-31')]
@@ -26,21 +27,21 @@ evapotranspiration = jnp.array(df['evapotranspiration'], dtype=jnp.float64)
 discharge = jnp.array(df['observed_discharge'], dtype=jnp.float64)
 
 ## Import synthetic discharge for M3
-y_obs = jnp.load('./data_1980.npy', allow_pickle=True)
+y_obs = jnp.load('hpc_scripts/data_1980.npy', allow_pickle=True)
 
 # load the posterior predictve discharge values
 # For M2
 
-M2 = jnp.load('./ppcstudytwo2bucs.npy', allow_pickle=True)
+M2 = jnp.load('hpc_scripts/ppcstudytwo2bucs.npy', allow_pickle=True)
 
 # For M3
-M3 = jnp.load('./ppcstudytwo3bucs.npy', allow_pickle=True)
+M3 = jnp.load('hpc_scripts/ppcstudytwo3bucs.npy', allow_pickle=True)
 
 # For M4
-M4 = jnp.load('./ppcstudytwo4bucs.npy', allow_pickle=True)
+M4 = jnp.load('hpc_scripts/ppcstudytwo4bucs.npy', allow_pickle=True)
 
 # import prior predictive samples
-prior_obs = jnp.load('./prior_obsm3.npy', allow_pickle=True)
+prior_obs = jnp.load('hpc_scripts/prior_obsm3.npy', allow_pickle=True)
 
 # get the mean of the posterior predictive discharge values
 
@@ -92,7 +93,7 @@ ax1.set_xlabel('time (day)', fontsize=10)
 ax1.set_ylabel(r'Discharge ($\mathrm{mmd^{-1})}$', fontsize=10)
 ax1.legend(handles=legend_elements, loc='best', fontsize='small', frameon=True)
 fig.set_figwidth(5)
-plt.savefig("./ppc_studytwo.pdf")
+plt.savefig("ppc_studytwo.pdf")
 
 # Caculate the posterior predictive pppvalue for model M2
 n = len(M3)
@@ -121,7 +122,7 @@ acf_yobs = acf(
     missing='none')
 ppc = np.count_nonzero(chains >= acf_yobs.reshape(91, 1)
                        ) / (M3.shape[0] * M3.shape[1])
-print(f'the ppp-value for model M2 is: {ppc}')
+print(f'the ppp-value for model M3 is: {ppc}')
 
 # calculate the prior calibrated posterior predictive pvalue
 
