@@ -142,3 +142,5 @@ fig.subplots_adjust(wspace=0.4, hspace=0.3)
 fig.set_figheight(2.5)
 fig.set_figwidth(5)
 plt.savefig("./ic_ex2.pdf")
+#fig.savefig("/Users/damian.ndiwago/Dropbox/Mac/Desktop/Cets_presentations/defenceplots/ic_ex2.jpg", dpi=300, format='jpg')
+
